@@ -211,9 +211,8 @@ class PlayTrivial extends Command
 
             $selectedAnswer = $this->askQuestion($question, $answers);
 
-            if ($selectedAnswer === $correctAnswer) {
-                $this->correct++;
-            }
+            if ($selectedAnswer === $correctAnswer[0])
+                $this->correct ++;
         }
     }
 
