@@ -42,13 +42,13 @@ class AnswerService implements AnswerServiceInterface
      * @return bool
      * @throws \Exception
      */
-    public function boolAnswerStore(Question $question, Game $game, string $correct_answer): bool
+    public function boolAnswerStore(Question $question, Game $game, string|int $correct_answer): bool
     {
         $this->AnswerService()->store([
             'question_id' => $question->id,
             'game_id' => $game->id,
-            'correct_answer' => $correct_answer == 'ture' ? 1 : 0,
-            'content' => 'True'
+            'correct_answer' => $correct_answer === "true" ? 1 : 0,
+            'content' => 'true'
         ]);
 
 
@@ -56,7 +56,7 @@ class AnswerService implements AnswerServiceInterface
             'question_id' => $question->id,
             'game_id' => $game->id,
             'correct_answer' => $correct_answer == 'false' ? 1 : 0,
-            'content' => 'False'
+            'content' => 'false'
         ]);
 
         return true;

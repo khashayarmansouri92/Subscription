@@ -11,7 +11,8 @@ use Illuminate\Console\Command;
 
 class PlayTrivial extends Command
 {
-    protected $signature = 'trivial:play';
+    protected $signature = 'a';
+//    protected $signature = 'trivial:play';
 
     protected $description = 'Start a Trivial game';
 
@@ -117,7 +118,7 @@ class PlayTrivial extends Command
         return $this->ask(trans('messages.question_content'));
     }
 
-    private function createQuestion(string $content)
+    private function createQuestion(string|int $content)
     {
         return $this->questionService->store([
             'content' => $content,
