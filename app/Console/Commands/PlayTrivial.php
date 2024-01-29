@@ -8,11 +8,11 @@ use App\Services\Games\GameServiceInterface;
 use App\Services\Questions\QuestionServiceInterface;
 use App\Services\Users\UserServiceInterface;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Model;
 
 class PlayTrivial extends Command
 {
-    protected $signature = 'a';
-//    protected $signature = 'trivial:play';
+    protected $signature = 'trivial:play';
 
     protected $description = 'Start a Trivial game';
 
@@ -58,12 +58,12 @@ class PlayTrivial extends Command
         $this->endGame();
     }
 
-    private function welcomePlayer()
+    private function welcomePlayer(): void
     {
         $this->info(trans('messages.welcome'));
     }
 
-    private function startGame()
+    private function startGame(): void
     {
         $this->game = $this->gameService->start();
 
@@ -76,12 +76,12 @@ class PlayTrivial extends Command
         $this->userService->attach($this->member, $this->game);
     }
 
-    private function askForPlayerName(string $name)
+    private function askForPlayerName(string $name): string|int
     {
         return $this->ask(trans('messages.enter_player', ['name' => $name]));
     }
 
-    private function addQuestions()
+    private function addQuestions(): void
     {
         do {
             if ($this->type === 'exit') {
@@ -113,12 +113,12 @@ class PlayTrivial extends Command
         } while (true);
     }
 
-    private function askForQuestion()
+    private function askForQuestion(): string|int
     {
         return $this->ask(trans('messages.question_content'));
     }
 
-    private function createQuestion(string|int $content)
+    private function createQuestion(string|int $content): Model
     {
         return $this->questionService->store([
             'content' => $content,
@@ -127,24 +127,24 @@ class PlayTrivial extends Command
         ]);
     }
 
-    private function createBoolAnswer(Question $question)
+    private function createBoolAnswer(Question $question): void
     {
         $correctAnswer = $this->askForBoolAnswer();
 
         $this->answerService->boolAnswerStore($question, $this->game, $correctAnswer);
     }
 
-    private function askForBoolAnswer()
+    private function askForBoolAnswer(): string|int
     {
         return $this->choice(trans('messages.select_correct'), ['true', 'false']);
     }
 
-    private function askForTypeQuestion()
+    private function askForTypeQuestion(): string|int
     {
         return $this->type = $this->choice(trans('messages.select_more_type'), ['multi_choice', 'bool'], null, null, false);
     }
 
-    private function createMultipleAnswers(Question $question)
+    private function createMultipleAnswers(Question $question): void
     {
         $options = $this->askForOptions();
 
@@ -166,7 +166,7 @@ class PlayTrivial extends Command
         ]);
     }
 
-    private function askForOptions()
+    private function askForOptions(): array|null
     {
         $options = [];
 
@@ -180,17 +180,17 @@ class PlayTrivial extends Command
         return $options;
     }
 
-    private function askForCorrectAnswer(array $options)
+    private function askForCorrectAnswer(array $options): string|int
     {
         return $this->choice(trans('messages.select_correct'), $options);
     }
 
-    private function askForNextType()
+    private function askForNextType(): void
     {
         $this->type = $this->choice(trans('select_next-action'), ['exit', 'save', 'multi_choice', 'bool']);
     }
 
-    private function confirmToStart()
+    private function confirmToStart(): void
     {
         $confirmation = $this->ask(trans('messages.start_game', ['name' => $this->member->username]));
 
@@ -200,7 +200,7 @@ class PlayTrivial extends Command
         }
     }
 
-    private function playGame()
+    private function playGame(): void
     {
         $questions = $this->gameService->getQuestions($this->game);
 
@@ -212,16 +212,16 @@ class PlayTrivial extends Command
             $selectedAnswer = $this->askQuestion($question, $answers);
 
             if ($selectedAnswer === $correctAnswer[0])
-                $this->correct ++;
+                $this->correct++;
         }
     }
 
-    private function askQuestion(Question $question, array $answers)
+    private function askQuestion(Question $question, array $answers): string|int
     {
         return $this->choice($question->content, $answers);
     }
 
-    private function endGame()
+    private function endGame(): void
     {
         $total = $this->gameService->getTotalQuestions($this->game);
 
