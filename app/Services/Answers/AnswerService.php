@@ -55,7 +55,7 @@ class AnswerService implements AnswerServiceInterface
         $this->AnswerService()->store([
             'question_id' => $question->id,
             'game_id' => $game->id,
-            'correct_answer' => $correct_answer == 'false' ? 1 : 0,
+            'correct_answer' => $correct_answer === "false" ? 1 : 0,
             'content' => 'false'
         ]);
 
