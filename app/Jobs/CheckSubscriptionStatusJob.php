@@ -3,12 +3,12 @@
 namespace App\Jobs;
 
 use App\Models\Subscription;
+use App\Services\Subscription\SubscriptionService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use SubscriptionService;
 
 class CheckSubscriptionStatusJob implements ShouldQueue
 {
