@@ -1,14 +1,15 @@
 <?php
+namespace App\Services\Subscription;
 
 use App\Enums\Platform\TypeEnum;
 use App\Enums\Subscription\StatusEnum;
 use App\Jobs\CheckSubscriptionStatusJob;
 use App\Models\Subscription;
 use App\Notifications\SubscriptionExpiredNotification;
-use App\Services\Subscription\SubscriptionServiceInterface;
 use App\Traits\InteractsWithExpiredSubscription;
 use App\Traits\InteractsWithSubscription;
 use App\Traits\InteractsWithUser;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
