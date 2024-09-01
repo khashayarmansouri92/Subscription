@@ -18,7 +18,7 @@ class BaseRepository
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      * @return Model
      */
     public function store(array $attributes): Model
@@ -63,6 +63,19 @@ class BaseRepository
     }
 
     /**
+     * @param array $arr
+     * @return object|null
+     */
+    public function findByKeyNotValue(array $arr): object|null
+    {
+        return $this->model->where(function ($query) use ($arr) {
+            foreach ($arr as $key => $value) {
+                $query->where($key, '!=', $value);
+            }
+        })->first();
+    }
+
+    /**
      * @param $id
      * @param array $relationships
      * @return mixed
@@ -78,14 +91,14 @@ class BaseRepository
      */
     public function firstOrFail(array $relationships = []): Model|Builder
     {
-        return $this->model->where($relationships)->firstOrFail();
+        return $this->model->where($relationships)->latest()->firstOrFail();
     }
 
     /**
      * @param array $conditions
-     * @return Builder
+     * @return Model
      */
-    public function getElementsByCondition(array $conditions = []): Builder
+    public function getElementsByCondition(array $conditions = []): Model
     {
         if (!empty($conditions['conditional'])) {
             $this->model->where(function ($query) use ($conditions) {

@@ -1,5 +1,8 @@
 <?php
 
+use App\Providers\ExpiredSubscriptionServiceProvider;
+use App\Providers\SubscriptionServiceProvider;
+use App\Providers\UserServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -168,10 +171,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        \App\Providers\GameServiceProvider::class,
-        \App\Providers\UserServiceProvider::class,
-        \App\Providers\QuestionServiceProvider::class,
-        \App\Providers\AnswerServiceProvider::class
+        SubscriptionServiceProvider::class,
+        UserServiceProvider::class,
+        ExpiredSubscriptionServiceProvider::class
     ])->toArray(),
 
     /*

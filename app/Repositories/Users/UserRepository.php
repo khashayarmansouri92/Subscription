@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Repositories\Users;
-use App\Models\Game;
+
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
+use RoleEnum;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
@@ -14,12 +15,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param User $user
-     * @param Game $game
-     * @return void
+     * @return Model
      */
-    public function attach(User $user ,Game $game): mixed
+    public function getAdmin(): Model
     {
-        return $user->games()->attach($game);
+        return User::role(RoleEnum::ADMIN->value)->first();
     }
 }

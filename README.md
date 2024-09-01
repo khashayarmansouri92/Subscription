@@ -1,6 +1,6 @@
-# PlayTrivial Laravel Console Command
+# Subscription
 
-This Laravel console command allows users to play a Trivial game by interacting with the command line.
+Subscription is a Laravel-based application designed to manage and synchronize subscription statuses for various apps across different platforms like Android and iOS. The system automatically checks the subscription status on the respective app stores and updates the status in the database. It also notifies administrators of any changes in subscription status.
 
 ## Requirements
 
@@ -13,7 +13,7 @@ This Laravel console command allows users to play a Trivial game by interacting 
 1. Clone the repository to your local machine:
 
     ```bash
-    git clone https://github.com/khashayarmansouri92/TrivialGame.git
+    git clone https://github.com/khashayarmansouri92/Subscription.git
     ```
 
 2. Set up your environment variables by copying the `.env.example` file:
@@ -47,10 +47,3 @@ This Laravel console command allows users to play a Trivial game by interacting 
     ```bash
     php artisan migrate
     ```
-
-## Usage
-
-Run the Trivial game console command:
-
-```bash
-docker exec -it <container-name> php artisan trivial:play

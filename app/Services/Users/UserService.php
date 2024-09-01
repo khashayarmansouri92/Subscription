@@ -2,37 +2,41 @@
 
 namespace App\Services\Users;
 
-use App\Models\Game;
-use App\Models\User;
+use App\Dtos\User\LoginDto;
 use App\Traits\InteractsWithUser;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class UserService implements UserServiceInterface
 {
     use InteractsWithUser;
 
     /**
-     * @param string $username
-     * @param bool $main
-     * @return Model
-     * @throws \Exception
+     * @param LoginDto $attr
+     * @return array|null
      */
-    public function firstOrCreate(string $username, bool $main): Model
+    public function login(LoginDto $attr): ?array
     {
-        return $this->UserRepository()->firstOrCreate([
-            'username' => $username,
-            'main_user' => $main,
-        ]);
-    }
+        $credentials = [
+            'email' => $attr->email,
+            'password' => $attr->password,
+        ];
 
-    /**
-     * @param User $user
-     * @param Game $game
-     * @return bool
-     * @throws \Exception
-     */
-    public function attach(User $user, Game $game): mixed
-    {
-        return $this->UserRepository()->attach($user, $game);
+        if (Auth::attempt($credentials)) {
+
+            $user = Auth::user();
+
+            $token = $user->createToken('access_token')->plainTextToken;
+
+            return [
+                'token_type' => 'Bearer',
+                'roles' => Auth::user()->getRoleNames(),
+                'access_token' => $token,
+                'user_id' => $user->id,
+                'first_name' => $user?->first_name,
+                'last_name' => $user?->last_name,
+            ];
+        }
+        return null;
     }
 }

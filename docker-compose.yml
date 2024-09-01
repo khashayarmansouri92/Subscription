@@ -39,13 +39,11 @@ services:
             - ./data/mysql:/var/lib/mysql
         environment:
             MYSQL_DATABASE: laravel
-            MYSQL_USER: root
-            MYSQL_PASSWORD: secret
-            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: secret  # Use only MYSQL_ROOT_PASSWORD
         networks:
             - laravel
 
-    # phpMyAdmin service
+        # phpMyAdmin service
     phpmyadmin:
         image: phpmyadmin
         restart: always
